@@ -7,3 +7,5 @@
 # Goto Menu settings- Manage truliooAPi page
 # Enter your API key in setting page and click save
 # # -------------Installation Done -------------------------
+# WP_Trulioo
+Trulioo integration for WordPress
