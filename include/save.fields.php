@@ -6,8 +6,8 @@ function save_favorite_color_account_details($user_id)
 {
 
 
-    if (isset($_POST['billing_dob']))
-        update_user_meta($user_id, 'billing_dob', sanitize_text_field($_POST['billing_dob']));
+    if (isset($_POST['account_dob']))
+        update_user_meta($user_id, 'account_dob', sanitize_text_field($_POST['account_dob']));
 
 	if (isset($_POST['billing_dl']))
         update_user_meta($user_id, 'billing_dl', sanitize_text_field($_POST['billing_dl']));

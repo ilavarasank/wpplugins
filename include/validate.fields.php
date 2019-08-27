@@ -13,9 +13,11 @@ function wooc_validate_custom_field($errors)
 
     $fields['billing_first_name'] = $_POST['account_first_name'];
     $fields['billing_last_name'] = $_POST['account_last_name'];
-    $fields['billing_dob'] = $_POST['billing_dob'];
+    $fields['billing_dob'] = $_POST['account_dob'];
     $fields['billing_dlf'] = $_POST['billing_dlf'];
     $fields['billing_dlb'] = $_POST['billing_dlb'];
+	$fields['billing_dl'] = $_POST['billing_dl'];
+	
 
     $validate = document_varify($fields);
 
@@ -25,7 +27,7 @@ function wooc_validate_custom_field($errors)
 
 }
 
-add_action("woocommerce_after_save_address_validation", 'after_save_address_validation_custom_validation', 1, 2);
+//add_action("woocommerce_after_save_address_validation", 'after_save_address_validation_custom_validation', 1, 2);
 
 function after_save_address_validation_custom_validation($user_id, $load_address)
 {
@@ -38,6 +40,10 @@ function after_save_address_validation_custom_validation($user_id, $load_address
         $fields['billing_dob'] = $_POST['billing_dob'];
         $fields['billing_dlf'] = $_POST['billing_dlf'];
         $fields['billing_dlb'] = $_POST['billing_dlb'];
+		$fields['billing_dl'] = $_POST['billing_dl'];
+		$fields['billing_state'] = $_POST['billing_state'];
+		$fields['billing_postcode'] = $_POST['billing_postcode'];
+		$fields['billing_city'] = $_POST['billing_city'];
 
         $validate = document_varify($fields);
         if ($validate == false)
@@ -85,6 +91,7 @@ wp_enqueue_style('trulioo_custom-stylesheet', plugin_dir_url(__FILE__) . '../css
 		jQuery.post(ajaxurl, data, function(response) {
 			//alert('Got this from the server: ' + response);
 			jQuery('#errorAPI').html(response);
+			jQuery('#checkAPIB').attr("disabled", false);
 		});
 	});
 	</script> <?php
@@ -102,7 +109,7 @@ function api_validate_test() {
 		$integration= ( $_POST['integration'] );
 		
 		if ($integration == 'Live') {
-                $URL = 'https://gateway.trulioo.com/connection/v1/testauthentication';
+                $URL = 'https://api.globaldatacompany.com/verifications/v1/testauthentication';
             } else {
                 $URL = 'https://gateway.trulioo.com/trial/connection/v1/testauthentication';
             }
@@ -120,7 +127,7 @@ function api_validate_test() {
 
             $season_data = curl_exec($ch);
 
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+           $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             curl_close($ch);
 

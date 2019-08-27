@@ -164,7 +164,7 @@ class MySettingsPage
             '<input type="text" id="title" name="TruliooAPI_option_name[title]" value="%s" />',
             isset($this->options['title']) ? esc_attr($this->options['title']) : ''
         );
-		echo '&nbsp;<input type="button" id="checkAPIB" value="Test Connectivity" disabled="disabled" class="button button-primary">';
+		echo '&nbsp;<input type="button" id="checkAPIB" value="Test Connectivity" class="button button-primary">';
 		echo '<div id="errorAPI"></div>';
     }
 }

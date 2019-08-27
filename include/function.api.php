@@ -7,7 +7,15 @@ function document_varify($fields)
 {
 
     $my_settings_page = get_option('TruliooAPI_option_name');
-
+	
+	$DOB21time = strtotime('+21 years', strtotime($fields['billing_dob']));
+	
+ 	
+	if(time() < $DOB21time)  {
+     wc_add_notice(__('You must be 21 years of age to proceed.'), 'error');
+	 return true;  
+    }
+	
 
     if (isset($my_settings_page['apistatus']) and esc_attr($my_settings_page['apistatus']) != 'Enable') {
         return true;
@@ -25,8 +33,12 @@ function document_varify($fields)
             "Accept: text/html",
             "x-trulioo-api-key: " . $my_settings_page['title']
         );
-
-
+	
+		echo "<pre>";
+        var_dump($fields);
+        echo "</pre>";
+		
+		
         $billing_dob = explode('-', $fields['billing_dob']);
         $data['AcceptTruliooTermsAndConditions'] = true;
         $data['CleansedAddress'] = false;
@@ -45,6 +57,8 @@ function document_varify($fields)
         $data['DataFields']['Location']['StateProvinceCode'] = $fields['billing_state'];
         $data['DataFields']['Location']['PostalCode'] = $fields['billing_postcode'];
         $data['DataFields']['Location']['City'] = $fields['billing_city'];
+		
+		$data['DataFields']['DriverLicence']['Number'] = $fields['billing_dl'];
 
         if ('Document Verification' == $data['ConfigurationName']) {
             $data['DataFields']['Document']['DocumentFrontImage'] = sanitize_text_field($fields['billing_dlf']);
@@ -55,6 +69,7 @@ function document_varify($fields)
         echo "<pre>";
         var_dump($data);
         echo "</pre>";
+		
 
         $postdata = json_encode($data);
 
@@ -77,7 +92,6 @@ function document_varify($fields)
         echo "<pre>";
         print_r($datajson);
         echo "</pre>";
-
 		
         if (isset($datajson->Record->RecordStatus) && $datajson->Record->RecordStatus == 'match')
             return true;

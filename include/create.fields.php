@@ -8,8 +8,8 @@ function edit_account_form()
     ?>
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
         <label for="favorite_color"><?php _e('DOB (dd/mm/yyyy)', 'woocommerce'); ?>
-            <input type="date" class="woocommerce-Input woocommerce-Input--text input-text" name="billing_dob"
-                   id="billing_dob" value="<?php echo esc_attr($user->billing_dob); ?>"/>
+            <input type="date" class="woocommerce-Input woocommerce-Input--text input-text" name="account_dob"
+                   id="account_dob" value="<?php echo esc_attr($user->account_dob); ?>"/>
     </p>
     
     <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -37,7 +37,7 @@ add_filter('woocommerce_billing_fields', 'custom_woocommerce_billing_fields');
 function custom_woocommerce_billing_fields($fields)
 {
     //print_r($fields);
-
+if (!is_account_page()){
     $fields['billing_dob'] = array(
         'label' => __('DOB (dd/mm/yyyy)', 'woocommerce'), // Add custom field label
         'placeholder' => _x('Date Of Birth', 'placeholder', 'woocommerce'), // Add custom field placeholder
@@ -76,7 +76,7 @@ function custom_woocommerce_billing_fields($fields)
         'priority' => 25
     );
 
-
+}
     return $fields;
 }
 
